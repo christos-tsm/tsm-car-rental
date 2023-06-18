@@ -20,7 +20,9 @@
  * @subpackage Tsm_Car_Rental/public
  * @author     Christos Tsamis <christosgsd@gmail.com>
  */
-class Tsm_Car_Rental_Public {
+
+class Tsm_Car_Rental_Public
+{
 
 	/**
 	 * The ID of this plugin.
@@ -41,17 +43,27 @@ class Tsm_Car_Rental_Public {
 	private $version;
 
 	/**
+	 * The shortcodes of the plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      object    $shortcodes    The shortcodes of the plugin.
+	 */
+	private $shortcodes;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
 	 * @param      string    $plugin_name       The name of the plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
-
+	public function __construct($plugin_name, $version)
+	{
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
+		require plugin_dir_path(__FILE__) . 'class-tsm-car-rental-shortcodes.php';
+		$this->shortcodes = new TSM_Car_Rental_Shortcodes();
 	}
 
 	/**
@@ -59,7 +71,8 @@ class Tsm_Car_Rental_Public {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles()
+	{
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -72,9 +85,7 @@ class Tsm_Car_Rental_Public {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/tsm-car-rental-public.css', array(), $this->version, 'all' );
-
+		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/tsm-car-rental-public.css', array(), $this->version, 'all');
 	}
 
 	/**
@@ -82,8 +93,8 @@ class Tsm_Car_Rental_Public {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts() {
-
+	public function enqueue_scripts()
+	{
 		/**
 		 * This function is provided for demonstration purposes only.
 		 *
@@ -95,9 +106,13 @@ class Tsm_Car_Rental_Public {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/tsm-car-rental-public.js', array( 'jquery' ), $this->version, false );
-
+		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/tsm-car-rental-public.js', array('jquery'), $this->version, false);
 	}
 
+	public function register_shortcodes()
+	{
+		add_shortcode('tsm_car_rental_archive', array($this->shortcodes, 'tsm_car_rental_archive_shortcode'));
+		add_shortcode('tsm_car_rental_single', array($this->shortcodes, 'tsm_car_rental_single_shortcode'));
+		add_shortcode('tsm_car_rental_form', array($this->shortcodes, 'tsm_car_rental_form_shortcode'));
+	}
 }

@@ -20,7 +20,8 @@
  * @subpackage Tsm_Car_Rental/includes
  * @author     Christos Tsamis <christosgsd@gmail.com>
  */
-class Tsm_Car_Rental_Deactivator {
+class Tsm_Car_Rental_Deactivator
+{
 
 	/**
 	 * Short Description. (use period)
@@ -29,8 +30,9 @@ class Tsm_Car_Rental_Deactivator {
 	 *
 	 * @since    1.0.0
 	 */
-	public static function deactivate() {
-
+	public static function deactivate()
+	{
+		// Flush the rewrite rules
+		flush_rewrite_rules();
 	}
-
 }

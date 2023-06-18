@@ -2,3 +2,23 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
+
+.tsm_price_period {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    padding: 20px;
+}
+
+.tsm_price_period:nth-child(even) {
+    background-color: #f5f5f5;
+}
+
+#tsm_add_price_period {
+    margin-top: 40px;
+}
+
+.add-booking-form {
+    display: flex;
+    flex-direction: column;
+}
