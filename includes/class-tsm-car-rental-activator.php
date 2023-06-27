@@ -37,6 +37,7 @@ class Tsm_Car_Rental_Activator
 		$plugin_admin->create_car_post_type();
 		$plugin_admin->create_car_type_taxonomy();
 		self::tsm_create_bookings_table();
+		// self::update_database();
 		flush_rewrite_rules();
 	}
 
@@ -53,7 +54,7 @@ class Tsm_Car_Rental_Activator
 		$sql = "CREATE TABLE $table_name (
             id mediumint(9) NOT NULL AUTO_INCREMENT,
             car_id mediumint(9) NOT NULL,
-            customer_id mediumint(9) NOT NULL,
+            customer_id mediumint(9),
             start_date datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
             end_date datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
             created_at datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -62,5 +63,14 @@ class Tsm_Car_Rental_Activator
         ) $charset_collate;";
 
 		dbDelta($sql);
+	}
+
+	public static function update_database()
+	{
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'tsm_bookings';
+		// $wpdb->query("ALTER TABLE {$table_name} MODIFY customer_id INT(11) NULL");
+		$wpdb->query("ALTER TABLE {$table_name} ADD customer_name VARCHAR(255) NOT NULL");
+		$wpdb->query("ALTER TABLE {$table_name} ADD customer_email VARCHAR(255) NOT NULL");
 	}
 }

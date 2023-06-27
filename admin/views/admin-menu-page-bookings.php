@@ -5,6 +5,7 @@
             <div id="post-body-content">
                 <div class="meta-box-sortables ui-sortable">
                     <form method="post">
+                        <?php $bookingsListTable->search_box('Search by this email', 'search_id'); ?>
                         <?php $bookingsListTable->display(); ?>
                     </form>
                 </div>

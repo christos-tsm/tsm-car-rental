@@ -75,7 +75,7 @@ class Tsm_Car_Rental_Admin
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
+		wp_enqueue_style('flatpickr-admin-styles', 'https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css', array(), null, 'all');
 		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/tsm-car-rental-admin.css', array(), $this->version, 'all');
 	}
 
@@ -97,6 +97,13 @@ class Tsm_Car_Rental_Admin
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
+		// Get the page query parameter
+		$page = isset($_GET['page']) ? $_GET['page'] : null;
+
+		// Check if the current page is tsm-add-booking
+		if ($page === 'tsm-add-booking') {
+			wp_enqueue_script('flatpickr-admin-script', 'https://cdn.jsdelivr.net/npm/flatpickr', array(), null, false);
+		}
 		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/tsm-car-rental-admin.js', array('jquery'), $this->version, false);
 	}
 
@@ -209,22 +216,31 @@ class Tsm_Car_Rental_Admin
 		$customer_email = sanitize_email($_POST['customer_email']);
 		$start_date = sanitize_text_field($_POST['start_date']);
 		$end_date = sanitize_text_field($_POST['end_date']);
+
+		$start_date_with_time = $start_date . ' 00:00:00';
+		$end_date_with_time = $end_date . ' 00:00:00';
+
 		$status = sanitize_text_field($_POST['status']);
 
 		// Insert the new booking into the database
 		global $wpdb;
 		$table_name = $wpdb->prefix . "tsm_bookings";
-		$wpdb->insert(
+		$result = $wpdb->insert(
 			$table_name,
 			array(
 				'car_id' => $car_id,
 				'customer_name' => $customer_name,
+				'customer_id' => 0,
 				'customer_email' => $customer_email,
-				'start_date' => $start_date,
-				'end_date' => $end_date,
-				'status' => $status
+				'start_date' => $start_date_with_time,
+				'end_date' => $end_date_with_time,
+				'status' => $status,
 			)
 		);
+
+		if ($result === false) {
+			error_log("Database insert operation failed: " . $wpdb->last_error);
+		}
 
 		// Redirect back to the bookings list
 		wp_redirect(admin_url('admin.php?page=tsm-bookings'));
