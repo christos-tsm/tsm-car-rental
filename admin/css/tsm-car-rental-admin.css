@@ -21,8 +21,38 @@
 .add-booking-form {
     display: flex;
     flex-direction: column;
+    padding: 40px 0 0;
+    gap: 25px;
 }
 
 .add-booking-form select {
     min-width: 100%;
+}
+
+.status {
+    text-transform: capitalize;
+    font-weight: 600;
+}
+
+.status--confirmed {
+    color: #539b32;
+}
+
+.status--pending {
+    color: #ffad2a;
+}
+
+.tsm-booking-form-row {
+    display: flex;
+    gap: 25px;
+}
+
+.tsm-input-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.tsm-input-container input {
+    background-color: #fff;
 }

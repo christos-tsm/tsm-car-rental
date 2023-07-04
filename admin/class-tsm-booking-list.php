@@ -40,7 +40,11 @@ class TSM_Booking_List extends WP_List_Table
             case 'customer_email':
             case 'customer_name':
             case 'status':
-                return $item[$column_name];
+                if ($item[$column_name] === 'confirmed') {
+                    return '<span class="status status--confirmed">' . $item[$column_name] . '</span>';
+                } elseif ($item[$column_name] === 'pending') {
+                    return '<span class="status status--pending">' . $item[$column_name] . '</span>';
+                }
             case 'start_date':
             case 'end_date':
                 // Create DateTime object from date string
